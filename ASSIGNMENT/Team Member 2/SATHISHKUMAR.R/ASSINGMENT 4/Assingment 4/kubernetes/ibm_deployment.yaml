@@ -1,4 +1,4 @@
-[1:10 PM, 10/31/2022] Sriram: apiVersion: apps/v1
+[1:10 PM, 10/31/2022] Sathishkumar: apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-deploy
