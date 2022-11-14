@@ -1,0 +1,277 @@
+o  
+ t oc��@sddlmZddlmZddlZddlmZddlmZddl	m	Z	ddl 
+ mZmZm Z mZmZmZmZddlmZdd        l 
+ TddlZddlZdd 
+ lmaddlmaddlmaddlZe�d dd�Zee�ed�ee�Zde_e� d�dd��Z!ej dddgd�dd��Z"ej dddgd�dd��Z#ej dddgd�dd��Z$ej d ddgd�d!d"��Z%ej d#ddgd�d$d%��Z&ej d&ddgd�d'd(��Z'ej d)ddgd�d*d+��Z(ej d,ddgd�d-d.��Z)ej d/ddgd�d0d1��Z*ej d2ddgd�d3d4��Z+ej d5ddgd�d6d7��Z,ej d8ddgd�d9d:��Z-ej d;ddgd�d<d=��Z.ej d>ddgd�d?d@��Z/ej dAddgd�dBdC��Z0ej dDddgd�dEdF��Z1ej dGddgd�dHdI��Z2ej dJddgd�dKdL��Z3ej dMddgd�dNdO��a4e� dP�dQdR��Z5e� dS�dTdU��Z6e� dV�dWdX��Z7ej dYddgd�dZd[��Z8ej d\ddgd�d]d^��Z9ej d_ddgd�d`da��Z:ej dbddgd�dcdd��Z;ej deddgd�dfdg��Z<ej dhddgd�didj��Z=ej dkddgd�dldm��Z>e� dn�dodp��Z?edqk�rej@drdsdtdu�dSdS)v�)�print_function)�addN��name)�ApiException)�pprint)�Flask�render_template�request�redirect�url_for�session�flash)�escape)�*)�randomnumber)�id)�helloz�DATABASE=bludb;HOSTNAME=55fbc997-9266-4331-afd3-888b05e734c0.bs2io90l08kqb1od8lcg.databases.appdomain.cloud;PORT=31929;SECURITY=SSL;SSLServerCertificate=DigiCertGlobalRootCA.crt;UID=vdz09293;PWD=yVqc6936i65GzeoH�zconnection successful...zyour secret key�/cCsd}td|d�S)Nz.TEAM ID : PNT2022TMID37544 BATCH ID : B1-1M3E � 
+ index.html)Zmes�r	)�message�r�D:\assignment\Phase01\app.py�home�rz/home�POST�GET)�methodscC�td�S)Nrrrrrr�index!�r!z/signinpagecCr )N�signinpage.htmlrrrrr� 
+ signinpage%r"r$z/agentsignincCr )N�signinpageagent.htmlrrrrr�agentsignin*sr&z/signuppagecCr )N�signuppage.htmlrrrrr� 
+ signuppage2r"r(z/agentRegistercCr )N�agentregister.htmlrrrrr� agentRegister7r"r*z/forgotpasscCr )N�forgot.htmlrrrrr� 
+ forgotpassAr"r,z/newissue/<name>cCs|}td|d�S)N�complaint.html)�msgrrrrr�newissueFrr/z/forgotc 
+ C�z�z�tjd}t|�|ad}t�t|�}t�|d|�t�|�t�	|�}|dkr3|d}|d}	t 
+ ��}d|jd<t 
+ � t 
+ �|��}d}d        tt�d 
+ }        ddd �} 
+ ||d�g}ddd�}ddi} ddd�}t 
+ j||| |        || 
+ |d�}|�|�}t|�d|d}t|d�Wn(ty�}ztd|�td�WYd}~nd}~wtd�YWtd�SWtd�SWtd�Std�YS)N�custidz*SELECT EMAIL,NAME FROM Customer WHERE id=?�Fr�Yxkeysib-4ece99deb4778141f3eb3dbe039333585fc1f2b0acfeb77c7f9a0996c0d7fe8f-5cy3BmRMSEjDUxZ8�api-key�Verification for Password�0<html><body><h1>Your verification Code is : <h2>�</h2> </h1> </body></html>�IBM CUSTOMER CARE REGISTRY�ibmdemo6@yahoo.com�r�email�r;r�IBM�Some-Custom-Name�unique-id-1234�My param value�Email Verification��	parameter�subject��to�reply_to�headers�html_content�params�senderrD�Email send to:z for password�success�7Exception when calling SMTPApi->send_transac_email: %s 
+ �Error in sending mail�$Your didn't Signin with this accountr+�r 
+ �form�printr�ibm_db�prepare�conn� 
+ bind_param�execute� 
+ fetch_both�sib_api_v3_sdk� Configuration�api_key�TransactionalEmailsApi�	ApiClient�strr� SendSmtpEmail�send_transac_emailrrrr	�Zida�sql�stmt�emailf�e�n� configuration�api_instancerDrIrKrFrGrHrJ�send_smtp_email�api_responserrrr�forgotL�f 
+  
+  
+  
+ ���� 
+ �� 
+ ���rlz/agentforgotc 
+ Cr0)Nr1z'SELECT EMAIL,NAME FROM AGENT WHERE id=?r2Frr3r4r5r6r7r8r9r:r<r=r>r?r@rArBrErLz for OTPrMrNrOrPr+rQrbrrr�agentforgotrmrnz/verifyemailc 
+ C�z�z�tjd}d}t�t|�}t�|d|�t�|�t�|�}|dkr-|d}|d}	t�	�}d|j 
+ d<t�t�|��}d}d        t |�d 
+ }        ddd �} 
+ ||d�g}ddd�}ddi} ddd�}tj||| |        || 
+ |d�}|�|�}t|�d|d}t|d�Wn)ty�}ztd|�td�WYd}~nd}~wtdd�YWtd�SWtd�SWtd�Std�YS)N�verifyemailz*SELECT ID,NAME FROM Customer WHERE email=?r2Frr3r4zRegarding of your Customer Idz+<html><body><h1>Your Customer Id is : <h2>r7r8r9r:r<r=r>r?r@rArBrErL� for IDrMrN�Error in sending mail.�9Database not found in mail! Please Register Your account.�dangerr#�r 
+ rRrTrUrVrWrXrYrZr[r\r]r^r_r`rarrrrSr	�r;rcrdrerrrhrirDrIrKrFrGrHrJrjrkrrfrrrrp��b 
+  
+  
+  
+ ���� 
+ �� 
+ ���rpz/agentverifyemailc 
+ Cro)Nrpz'SELECT ID,NAME FROM AGENT WHERE EMAIL=?r2Frr3r4zRegarding of your Agent Idz(<html><body><h1>Your Agent Id is : <h2>r7r8r9r:r<r=r>r?r@rArBrErLrqrMrNrrrsrtr%rurvrrr�agentverifyemail�rwrxz/getintouchc 
+ Csz�z`tjd}tjd}tjd}t��}d|jd<t�t�|��}d}d|d|d	|d 
+ }ddd �}d|d�g}ddd�}        ddi} 
+ ddd�}tj||        | 
+ ||||d�}|�|�} t        | �Wnt 
+ yy}ztd|�WYd}~n 
+ d}~wwWtd�SWtd�Std�YS)Nr;rr.r3r4zGET IN TOUCHz<html><body><h1>NAME IS : <h2>z</h2> </h1> <h2> Email id is : z</h2> <h2> Message is :z</h2> </body></html>r8zssrajkiran1@gmail.comr:r9r<r=r>r?r@rArBrErNr) r 
+ rRrZr[r\r]r^r`rarrrSr	)r;rr.rhrirDrIrKrFrGrHrJrjrkrfrrr� 
+ getintouch sZ 
+  
+  
+  
+ �������� 
+ �� 
+ ����ryz/otpcC�zRtjd}t}tt�d}t�t|�}t�|d|�t�|�t�	|�}|dkr.|d}	|t 
+ t�krId|d}t|d�t d        �Wt d        �Std 
+ d�Wt d	�St d	�YS)N�otpz(SELECT PASSWORD FROM Customer WHERE id=?r2Fr�Your Password is rrMr+�	Wrong Otprt�r 
+ rRrrSrTrUrVrWrXrYr_rrr	�r{Zcusidrcrd�otpf�verifyr.rrrr{/�& 
+  
+  
+  
+ �r{z	/agentotpcCrz)Nr{z%SELECT PASSWORD FROM AGENT WHERE ID=?r2Frr|rrMr+r}rtr~rrrr�agentotpFr�r�z/adminc 
+ 	CsBg}d}t�t|�}t�|�}|dkr!|�|�t�|�}|dks|r0d}t�t|�}t�|�}g}d}t�t|�}t�|�}|dkrQ|�|�t�|�}|dksC|r`d}t�t|�}t�|�}g}d}t�t|�}t�|�}|dkr�|�|�t�|�}|dkss|r�d}t�t|�}t�|�}	td||||d	|d	|	d	d 
+ �S)NzSELECT * FROM customerFzSELECT COUNT() FROM customer;zselect * from ISSUEzSELECT COUNT() FROM ISSUE;zSELECT * FROM AGENTzSELECT COUNT(*) FROM AGENT;z 
+ admin.htmlr)Z	complaint�usersZagentsrZissueZmsgagent)rT�exec_immediaterVrY�appendr	) 
+ Zuserdatabasercrd� 
+ dictionary�userr��dict�count�agentZcotrrr�admin^sJ 
+  
+  
+ � 
+  
+  
+  
+ � 
+  
+  
+  
+ � 
+ "r�z/removec	Cs|tjd}|dkrBz,zd}t�t|�}t�|�tdd�Wntdd�YWttd��SWttd��Sttd��YS|d	krz,zd 
+ }t�t|�}t�|�tdd�Wntdd�YWttd��SWttd��Sttd��YS|dkr�z,zd 
+ }t�t|�}t�|�td d�Wntdd�YWttd��SWttd��Sttd��YSdS)NZotpv�Czdelete from customerz"delected successfully the CustomerrMzNo data found in Customerrtr(�Azdelete from AGENTz delected successfully the AgentszNo data found in Agentsz$delected successfully the ComplaintszNo data found in Complaints)	r 
+ rRrTrUrVrXrrr)r{� 
+ insert_sql�	prep_stmtrrr�remove�sF 
+  
+ �$ 
+ �$ 
+ �$�r�z/logincCs�tjdkrjzWtjd}|atjd}t||�|dkr&|dkr&ttd��WSdt|��dt|��d�}t�	t 
+ |�}t�|�}|rSt|�td        <t|�td<ttd 
+ ��WSt dd�Wtd�St d d�Ytd�Std�S)Nr�idn�passwordZ1111r�z!select * from customer where id='�' and password='�'r�welcome�Mismatch in credetialsrt�Error in Insertion operationr#)r 
+ �methodrRrrSrrrrTr�rVrYr rr	�rr�rcrd�datarrr�login�s( 
+  
+  
+  
+  
+ �r�z/welcomecCs�zRt}d}g}t�t|�}t�|d|�t�|�t�|�}|dkr0|�|�t�|�}|dks"d}t�t|�}t�|d|�t�|�t�|�}td||dd�WStd�YS)NzbSELECT ID,DATE,TOPIC,SERVICE_TYPE,SERVICE_AGENT,DESCRIPTION,STATUS FROM ISSUE WHERE CUSTOMER_ID =?r2Fz0SELECT COUNT(*) FROM ISSUE WHERE CUSTOMER_ID = ?zwelcome.htmlr�r�r)	rrTrUrVrWrXrYr�r	)rrcr�rdr��trrrr��s( 
+  
+  
+  
+ � 
+  
+ r�z/loginagentcCs�tjdkrVzCtjd}|atjd}dt|��dt|��d�}t�t|�}t�|�}|r?t|�t	d<t|�t	d<t 
+ td��WStd        d 
+ �Wt d�Stdd 
+ �Yt d�St d�S) Nrr�r�zselect * from AGENT where id='r�r�r�agentwelcomer�rtr�r%)r 
+ r�rR� 
+ loginagentrrTr�rVrYr rrrr	r�rrrr��s" 
+  
+  
+  
+ �r�z/delete/<ID>cCshdt|��d�}t|�t�t|�}t�|�}|r2dt|��d�}t�t|�}tdd�ttd��SdS)Nz!select * from customer where Id='r�zdelete from customer where id='�Delected SuccessfullyrMr��	rrSrTr�rV�	fetch_rowrrr)�IDrcrd�studentrrr�delete�s 
+  
+ �r�z/custdelet/<ID>cCs�tt�}dt|��d�}t|�t�t|�}t�|�}|rCzdt|��d�}t�t|�}tt	d��WSt 
+ dd�tt	d��YSdS)Nzselect * from ISSUE where Id='r�zdelete from ISSUE where id='z' AND STATUS = 'Completed'r�z/You Can't able to delect unless it is Completedrt)�intrrrSrTr�rVr�rrr)r�rrcrdr�rrr�	custdelets 
+  
+ �r�z/agentdelete/<ID>cC�ldt|��d�}t|�t�t|�}t�|�}|r4dt|��d�}t�t|�}g}tdd�ttd��SdS)Nzselect * from AGENT where Id='r�zdelete from AGENT where id='r�rMr�r��r�rcrdr�r�rrr�agentdelete� 
+  
+ �r�z	/registerc	Cstjdk�rz�z�tj��}|�d�}tjd}tjd}tjd}tjd}d}t�t|�}t�	|d|�t� 
+ |�t�|�}|rGtd        d 
+ �n�d}        t�t|        �} 
+ t�        | 
+ d|�t�        | 
+ d|�t�        | 
+ d |�t�        | 
+ d|�t�        | 
+ d|�t� 
+ | 
+ �tdd 
+ �d}t�t|�}t�        |d|�t� 
+ |�t� |�}t��}d|jd<t�t�|��} d}dt|d�d}ddd�}||d�g}ddd�}ddi}dd d!�}tj|||||||d"�}| �|�}t|�Wntd#d$�YWttd%��SWttd%��Sttd%��YStd&�S)'Nr�%Y-%m-%d %H:%M:%Srr;r��phonenumberz&SELECT * FROM customer WHERE email = ?r2�Record Aldready foundrMzKinsert into customer(name,email,password,phonenumber,DATE)values(?,?,?,?,?)����z>Your Information Stored Successful. Kindly check mail for Id !z%SELECT id FROM Customer WHERE email=?r3r4�Registering Account�a <html><body><h1>Thanks for Registering into Customer Care Registry</h1> <h2>Your Account Id is :rzs</h2><h2>Please kindly login with this Id</h2> <h2>With Regards:</h2><h3>Customer Care Registry</h3> </body></html>r8r9r:r<r=r>r?r@rArBrE�Error in Insertion Operationrtr(r')r 
+ r��datetime�now�strftimerRrTrUrVrWrX�fetch_assocr�fetch_tuplerZr[r\r]r^r_r`rarrr�con�closer	)�x�yrr;r�r�rcrd�accountr�r��hirhrirDrIrKrFrGrHrJrjrkrrr�register&sr 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ �� 
+ �� 
+ ��$r�z 
+ /agentformc	Cs�tjdk�rS�z?�z&tj��}|�d�}tjd}tjd}tjd}tjd}tjd}tjd}tjd	}tjd 
+ }        tjd} 
+ tjd}d }t�t|�} t�        | d|�t� 
+ | �t�| �}|rgtdd�n�t d�d}t�t|�}t�	|d|�t�	|d|�t�	|d|�t�	|d|�t�	|d|�t�	|d|�t�	|d|�t�	|d|	�t�	|d| 
+ �t�        |d|�t�        |d|�t� 
+ |�tdd�d}t�t|�} t�        | d|�t� 
+ | �t�| �}t��}d|jd <t�t�|��}d!}d"t|d#�d$}d%d&d'�}||d(�g}d&d)d(�}d*d+i}d,d-d.�}tj|||||||d/�}|�|�}t|�Wntd0d1�YWttd2��SWttd2��Sttd2��YStd3�S)4Nrr�rr;r�r��service�address�city�state�country�linkz#SELECT * FROM AGENT WHERE EMAIL = ?r2r�rM�execz�INSERT INTO AGENT (NAME,EMAIL,PASSWORD,PHONENUMBER,SERVICE_AGENT,ADDRESS,CITY,STATE,COUNTRY,RESUME_LINK,DATE) VALUES(?,?,?,?,?,?,?,?,?,?,?)r�r�r�r�����	� 
+ �zRecord stored Successfullyz"SELECT ID FROM AGENT WHERE email=?r3r4z-Registering Account in Customer Care Registryr�rzI</h2><h2>With Regards:</h2><h3>Customer Care Registry</h3> </body></html>r8r9r:r<r=r>r?r@rArBrEr�rtr*r))r 
+ r�r�r�r�rRrTrUrVrWrXr�rrSr�rZr[r\r]r^r_r`rarrrr�r�r	)r�r�Zname1r;r�r�r�r�r�r�r�r�rcrdr�r�r�r�rhrirDrIrKrFrGrHrJrjrkrrr�	agentformgs� 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ �� 
+ �� 
+ ��$r�z/complaintformc	Cs8tjdk�rtjd}tjd}tjd}tjd}tjd}tjd}tjd}tjd	}tjd 
+ }tj��}        |        �d�} 
+ d}z�z�d }t�t|�} t�        | d|�t�        | d| 
+ �t�	| d|�t�	| d|�t�	| d|�t�	| d|�t�	| d|�t�	| d|�t�	| d|�t�	| d|�t�	| d|�t� 
+ | �tdd�t� �}d|jd<t�t�|��}d}d|d|d |d!|d"}d#d$d%�}|d&d'�g}d$d(d'�}d)d*i}d+d,d-�}tj|||||||d.�}|�|�}t|�Wntd/d0�YWttd1��SWttd1��Sttd1��YStd2�S)3Nrrr;r�r��topic�descriptionr�r�r�r�� 
+ Processingz�INSERT INTO ISSUE (CUSTOMER_ID,DATE,EMAIL,PHONENUMBER,TOPIC,DESCRIPTION,SERVICE_TYPE,ADDRESS,STATE,IMAGE_LINK,STATUS) VALUES(?,?,?,?,?,?,?,?,?,?,?)r2r�r�r�r�r�r�r�r�r�r�z5Ticket Stored Successful! Soon will get Agent for YourMr3r4r�zd <html><body><h1>Thanks for raising ticket into Customer Care Registry</h1> <h2>Your Account Id is :z1</h2> <div><h2>Your details:</h2><h3>Your Topic :z</h3><h3>Your description :z</h3><h3>your service is :zD<h2>With Regards:</h2><h3>Customer Care Registry</h3> </body></html>r8r9r:ZTicketr<r=r>r?r@rArBrEr�rt� complaintformr-)r 
+ r�rRr�r�r�rTrUrVrWrXrrZr[r\r]r^r`rarrrr	)rr;r�r�r�r�r�r�r�r�r��statusr�r�rhrirDrIrKrFrGrHrJrjrkrrrr��sp 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ �$� 
+ �� 
+ �$r�z /agentwelcomecCs�t}d}t�t|�}t�|d|�t�|�t�|�}|dkr&|d}|}	||}d}g}t�t|�}t�|d|�t�|�t�|�}|dkrW|�|�t�|�}|dksId}t�t|�}	t�|	d|�t�|	�t�|	�} 
+ t        d|| 
+ dd�S)	Nz"SELECT NAME FROM AGENT WHERE ID =?r2FraSELECT ISSUE.ID,ISSUE.DATE,ISSUE.TOPIC,ISSUE.SERVICE_TYPE,ISSUE.SERVICE_AGENT,ISSUE.DESCRIPTION,ISSUE.STATUS,ISSUE.ADDRESS,ISSUE.CUSTOMER_ID,CUSTOMER.NAME,CUSTOMER.PHONENUMBER FROM ISSUE FULL OUTER JOIN CUSTOMER ON CUSTOMER.ID = ISSUE.CUSTOMER_ID WHERE ISSUE.SERVICE_AGENT = ?z2SELECT COUNT(*) FROM ISSUE WHERE SERVICE_AGENT = ?zagentwelcome.htmlr�) 
+ r�rTrUrVrWrXr�rYr�r	)rrcrdr��typerr_r�r�Zstmt5r�rrrr��s6 
+  
+  
+  
+  
+  
+ � 
+  
+ r�z/viewagent/<ID>c	Cs�zht|�}|at|�}d}t�t|�}t�|d|�t�|�t�|�}|dkr/|d}|a		d}g}t�t|�}t�|dt	�t�|�t� 
+ |�}|dkr\|�|�t� 
+ |�}|dksNtdd�t d||d        �WStd 
+ d�t d�YS)Nz*SELECT SERVICE_TYPE FROM ISSUE WHERE ID =?r2Frz0SELECT NAME,ID FROM AGENT WHERE SERVICE_AGENT =?� 
+ SuccessfulrMzagentapply.html)r�r�No record foundrt)r�� 
+ customeridr_rTrUrVrWrXr��servicesrYr�rr	)	r�rr�rcrdr�r�r�r�rrr�	viewagent!s8 
+  
+  
+  
+  
+  
+ � 
+  
+ r�z/updatethis/<ID>c	Cs�|}tt�t|�d}d}t�t|�}t�|d|�t�|�t�|�}|dkr6|d}|d}|}|}		|	} 
+ t| 
+ �||}d}t�t|�}t�|d|�t�|d|�t�|dt�t�|d        t�t�|�t        d 
+ d�t 
+ ��}d|jd <t 
+ � t 
+ �|��} d}dt|�dtdtt�d}ddd�}| 
+ dd�g}ddd�}ddi}ddd�}t 
+ j|||||||d�}| �|�}t|�ttd��S) Nz Agent Allotedz(SELECT NAME,EMAIL FROM AGENT WHERE ID =?r2FrzOUPDATE ISSUE SET SERVICE_AGENT = ?,STATUS = ? WHERE ID = ? AND SERVICE_TYPE = ?r�r�r�r�rMr3r4zAgent Alloted for you AccountzQ <html><body><h1>Agent has be alloted for your Ticket</h1> <h2>Your Agent Id is :z(</h2> <div><h2>Your servicetype is:</h2>z<h3>Your Token id :zI</h3><h2>With Regards:</h2><h3>Customer Care Registry</h3> </body></html>r8r9r:ZAgentr<r=r>r?r@rArBrEr�)rSr�rTrUrVrWrXr�r�rrZr[r\r]r^r_r`rarrr)r�Zagentidr�rcrdr�r.r;Zstr1ZemailidZmail�finalrhrirDrIrKrFrGrHrJrjrkrrr� 
+ updatethisCs` 
+  
+  
+  
+  
+ �$� 
+ �� 
+ r�z/completed/<DESCRIPTION>cCstd}z'd}t�t|�}t�|d|�t�|d|�t�|�tdd�ttd��WStdd	�ttd��YS) 
+ NZ	Completedz0UPDATE ISSUE SET STATUS = ? WHERE DESCRIPTION =?r2r�r�rMr�r�rt)rTrUrVrWrXrrr)ZDESCRIPTIONr�rcrdrrr�	completedxs 
+  
+  
+ r�z/deletecomplaint/<ID>cCr�)Nzselect * from ISSUE where ID='r�zdelete from ISSUE where ID='r�rMr�r�r�rrr�deletecomplaint�r�r��_main_z0.0.0.0i�T)�host�port�debug)A� 
+ _future_rZaudiooprr��unicodedatarZsib_api_v3_sdk.restrr�flaskrr	r 
+ rrr r� 
+ markupsaferrTrZ�initrrr�connectrVrS�_name_�app� 
+ secret_key�routerr!r$r&r(r*r,r/rlrnrprxryr{r�r�r�r�r�r�r�r�r�r�r�r�r�r�r�r�r��runrrrr�<module>s�$ 
+  
+  
+  
+  
+  
+          
+  
+  
+ 2 
+ 3 
+ , 
+ , 
+ ! 
+  
+  
+ ) 
+ # 
+  
+  
+  
+  
+  
+  
+ @ 
+ O 
+ A 
+ ' 
+ ! 
+ 4 
+  
+  
+ �
