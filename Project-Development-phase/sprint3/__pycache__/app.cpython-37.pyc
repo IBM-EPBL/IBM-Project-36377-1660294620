@@ -1,0 +1,31 @@
+B  
+ Z�a_�@s�ddlmZmZmZddlZddlZddlZee�Zdd�Z	e� 
+ d�dd��Zdd        �Zej 
+ d 
+ ddgd �dd��Z e�d�dd��Zedkr�ejdd�dS)�)�Flask�render_template�requestNcCs:t�dd�}|��|�||�|�|d|�|��dS)Nzsmtp.gmail.comiKzcybercreed010@gmail.com)�smtplibZSMTPZstarttls�loginZsendmail�quit)�emailZpssdZmssg�server�r 
+ �#C:\Users\cyber\Desktop\Final\app.py�mails 
+ r�/cCstd�S)Nz 
+ index.html)rr 
+ r 
+ r 
+ r�	home_pagesrcCs:|�d�}|�d�}|�d�}d|�d|�d|�d�}|S)N�namer�messagezFrom: z <z/> 
+ Subject: New Message On Our Official Website 
+ � 
+ )�get)�datarr�msgrr 
+ r 
+ r�cleanMsgs 
+  
+  
+  
+ rz/submit_form�GET�POST)�methodscCs<tjdkr4tj��}t|�}tj�d�}tddd�SdSdS)NrZ 
+ EMAIL_PASSz 
+ index.htmlztest())�codezSomething Not Right )	r�method�form�to_dictr�os�environrr)rr�passwordr 
+ r 
+ rr's 
+  
+ ri�cCstd�S)Nz404.html)r)�er 
+ r 
+ r�	not_found3sr!�_mainT)�debug)�flaskrrr�timerr�name_�appr�routerrr�errorhandlerr!�runr 
+ r 
+ r 
+ r�<module>s
